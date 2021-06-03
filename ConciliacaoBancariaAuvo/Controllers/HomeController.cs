@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConciliacaoBancariaAuvo.Controllers
 {
@@ -58,7 +59,6 @@ namespace ConciliacaoBancariaAuvo.Controllers
 
             extrato.Ofx = ofxPrefixo + extrato.OfxUpload.FileName;
 
-
             return RedirectToAction("Index");
         }
 
@@ -88,10 +88,9 @@ namespace ConciliacaoBancariaAuvo.Controllers
                 }
             }
 
-
-
-
             List<string> listaTags = new List<string>();
+            var extrato = new Extrato();
+            List<Extrato> extratos = new List<Extrato>();
 
             while (fileContents.IndexOf("<STMTTRN>") > -1)
             {
@@ -106,16 +105,47 @@ namespace ConciliacaoBancariaAuvo.Controllers
 
             }
 
+            foreach (var list in listaTags)
+            {
+                #region teste
+                //var posTipo = fileContents.IndexOf("<TRNTYPE>");
+                //listaTags[0] = intervaloIndex.Substring(19, 5);
+                //extrato.Tipo = listaTags[0];
+                //listaTags[0] = intervaloIndex.Substring(35, 8);
+                ////extrato.DataLancamento = Convert.ToDateTime(listaTags[0]);
+                //extrato.DataLancamento = listaTags[0];
+                //listaTags[0] = intervaloIndex.Substring(67, 6);
+                //extrato.Valor = Convert.ToDecimal(listaTags[0]);
+                //listaTags[0] = intervaloIndex.Substring(81, 25);
+                //extrato.Descricao = listaTags[0];
+
+                //<STMTTRN>
+                //<TRNTYPE> DEBIT
+                //<DTPOSTED> 20140203100000[-03:EST]
+                //<TRNAMT> -140.00
+                //<MEMO> CXE     001958 SAQUE
+                //</STMTTRN >
+                #endregion
+
+                var tam = listaTags.Count;
+
+                for (int i = 0; i < tam; i++)
+                {
+
+                    extrato.Id = extrato.Id;
+
+                    extrato.Tipo = listaTags[i].ToString().Substring(19, 5);
+                    extrato.DataLancamento = listaTags[i].ToString().Substring(35, 8);
+                    extrato.Valor = listaTags[i].ToString().Substring(67, 6);
+                    extrato.Descricao = listaTags[i].ToString().Substring(81, 25);
+
+                    extratos.Add(new Extrato(extrato.Tipo,extrato.DataLancamento,extrato.Valor,extrato.Descricao));
+
+                    
+
+                }
+            }
             return true;
-        }
-
-        public void LerArquivo(IFormFile arquivo, string ofxPrefixo)
-        {
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ofx", ofxPrefixo + arquivo.FileName);
-
-            System.IO.File.Exists(path);
-
         }
 
     }

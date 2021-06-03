@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj": {}
+    "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj": {
+    "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
+        "projectUniqueName": "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
         "projectName": "ConciliacaoBancariaAuvo",
-        "projectPath": "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
+        "projectPath": "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
         "packagesPath": "C:\\Users\\aalve\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\obj\\",
+        "outputPath": "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

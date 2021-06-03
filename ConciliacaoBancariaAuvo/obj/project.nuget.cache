@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wzNUQs3kT5LTVcfbg9eOnMihne8GP+3W9q/FLj+pt5clXLnUZPzkL6jVQKqrDhRm+n7fY5YWU2BeYRG07CF1zg==",
+  "dgSpecHash": "9mqUKe4EurM36PjqfpjKbyD3nslnB//75KciM7V0Gvg7wAHTzja64jM0OKw1wU0i28sQEXumiQDrMA+WfTY/MQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\aalve\\source\\repos\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
+  "projectFilePath": "C:\\Dev\\github\\ProjetoAuvo\\ConciliacaoBancariaAuvo\\ConciliacaoBancariaAuvo.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore\\2.1.1\\microsoft.aspnetcore.2.1.1.nupkg.sha512",
