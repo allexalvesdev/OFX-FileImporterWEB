@@ -1,0 +1,33 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#qrCode {
+    margin: 15px;
+}
+
+@media screen and (max-width: 767px) {
+    .carousel-caption {
+        display: none;
+    }
+}
+
+
+.bg-main {
+    background: #6D26C2 !important;
+}
+
+.txt-color-main {
+    color: #6D26C2 !important;
+}
+
+.btn-main {
+    background: #6D26C2 !important;
+}

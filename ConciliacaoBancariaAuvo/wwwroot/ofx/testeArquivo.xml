@@ -1,0 +1,8 @@
+<?xml version="1.0">
+
+    <pessoa>
+        <titulo>Teste Arquivo XML</titulo>
+        <nome>Allex</nome>
+        <sobrenome>Alves</sobrenome>
+        <idade>Documentário</idade>
+    </pessoa>
