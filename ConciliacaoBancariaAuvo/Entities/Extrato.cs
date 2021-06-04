@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConciliacaoBancariaAuvo.Entities
 {
@@ -8,20 +10,21 @@ namespace ConciliacaoBancariaAuvo.Entities
     {
         public Extrato()
         {
-
+           
         }
 
-        public Extrato(string tipo, string dataLancamento, string descricao, string valor)
+        public Extrato(string tipo, string dataLancamento, string valor, string descricao)
         {
             Id = Guid.NewGuid();
             Tipo = tipo;
             DataLancamento = dataLancamento;
-            Descricao = descricao;
             Valor = valor;
+            Descricao = descricao;
         }
 
         public Guid Id { get; set; }
 
+        [NotMapped]
         public IFormFile OfxUpload { get; set; }
         public string Ofx { get; set; }
 

@@ -1,83 +1,54 @@
 ﻿using ConciliacaoBancariaAuvo.Entities;
-using ConciliacaoBancariaAuvo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Xml;
 using System.Threading.Tasks;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ConciliacaoBancariaAuvo.Data;
+using X.PagedList;
+
 
 namespace ConciliacaoBancariaAuvo.Controllers
 {
     public class HomeController : Controller
     {
 
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        [HttpGet]
+        public IActionResult Index(int page = 1, int pageSize = 10)
         {
-            ViewData["Message"] = "Your application description page.";
+            var search = Request.Query["Search"].ToString();
 
-            return View();
-        }
+            var lista = _context.Extratos
+                .OrderBy(c => c.Tipo)
+                .Where(c => c.Tipo.Contains(search));
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            PagedList<Extrato> model = new PagedList<Extrato>(lista, page, pageSize);
+            return View("Index", model);
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Extrato extrato)
+        public IActionResult Create(IFormFile arquivo, Extrato extrato)
         {
-
-            var ofxPrefixo = Guid.NewGuid() + "_";
-            if (!await UploadArquivo(extrato.OfxUpload, ofxPrefixo))
-            {
-                return View(extrato);
-            }
-
-            extrato.Ofx = ofxPrefixo + extrato.OfxUpload.FileName;
 
             return RedirectToAction("Index");
         }
 
-        private async Task<bool> UploadArquivo(IFormFile arquivo, string ofxPrefixo)
+        public async Task<IActionResult> UploadArquivo(IFormFile arquivo, string ofxPrefixo)
         {
-            if (arquivo.Length <= 0) return false;
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ofx", ofxPrefixo + arquivo.FileName);
-
-            if (System.IO.File.Exists(path))
-            {
-                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
-                return false;
-            }
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await arquivo.CopyToAsync(stream);
-            }
 
             string fileContents;
             using (var stream = arquivo.OpenReadStream())
@@ -123,29 +94,37 @@ namespace ConciliacaoBancariaAuvo.Controllers
                 //<TRNTYPE> DEBIT
                 //<DTPOSTED> 20140203100000[-03:EST]
                 //<TRNAMT> -140.00
-                //<MEMO> CXE     001958 SAQUE
+                //<MEMO> CXE     001958 SAQUE
                 //</STMTTRN >
                 #endregion
 
-                var tam = listaTags.Count;
+                extrato.Id = extrato.Id;
 
-                for (int i = 0; i < tam; i++)
-                {
+                var descricaoInicial = list.IndexOf("<MEMO>");
 
-                    extrato.Id = extrato.Id;
+                //var indexfinal = listaTags[i].IndexOf("</STMTTRN>") - 82;
+                var valorFinal = list.IndexOf("<MEMO>") - 68;
 
-                    extrato.Tipo = listaTags[i].ToString().Substring(19, 5);
-                    extrato.DataLancamento = listaTags[i].ToString().Substring(35, 8);
-                    extrato.Valor = listaTags[i].ToString().Substring(67, 6);
-                    extrato.Descricao = listaTags[i].ToString().Substring(81, 25);
+                extrato.Tipo = list.ToString().Substring(19, 5);
+                extrato.DataLancamento = list.ToString().Substring(35, 8);
+                extrato.Valor = list.ToString().Substring(67, valorFinal);
+                extrato.Descricao = list.ToString().Substring(descricaoInicial, 25).Replace("<MEMO>", "");
 
-                    extratos.Add(new Extrato(extrato.Tipo,extrato.DataLancamento,extrato.Valor,extrato.Descricao));
+                extratos.Add(new Extrato(extrato.Tipo, extrato.DataLancamento, extrato.Valor, extrato.Descricao));
 
-                    
-
-                }
             }
-            return true;
+
+            _context.Extratos.AddRange(extratos);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var extrato = _context.Extratos.Find(id);
+
+            return View(extrato);
         }
 
     }

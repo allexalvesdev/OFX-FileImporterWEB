@@ -51,10 +51,7 @@ C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Concil
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.TagHelpers.input.cache
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.TagHelpers.output.cache
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.RazorCoreGenerate.cache
-C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.cshtml.g.cs
-C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.cshtml.g.cs
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -68,3 +65,4 @@ C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Concil
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.pdb
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.genruntimeconfig.cache
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.csproj.CopyComplete
+C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\_Details.cshtml.g.cs
