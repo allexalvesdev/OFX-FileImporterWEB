@@ -12,6 +12,11 @@ namespace ConciliacaoBancariaAuvo.Entities
         {
            
         }
+        public Extrato(Guid id, string observacao)
+        {
+            Id = id;
+            Observacao = observacao;
+        }
 
         public Extrato(string tipo, DateTime dataLancamento, decimal valor, string descricao)
         {

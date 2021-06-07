@@ -10,6 +10,7 @@ using X.PagedList;
 using System;
 using System.ComponentModel;
 using ConciliacaoBancariaAuvo.Services;
+using ConciliacaoBancariaAuvo.Models;
 
 namespace ConciliacaoBancariaAuvo.Controllers
 {
@@ -80,6 +81,21 @@ namespace ConciliacaoBancariaAuvo.Controllers
             var extrato = _context.Extratos.Find(id);
 
             return Json(extrato);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SalvarExtrato(Guid id, Extrato extrato, string observacao)
+        {
+            extrato = await _context.Extratos.FindAsync(id);
+
+            extrato.Observacao = observacao;
+
+            _context.Extratos.Update(extrato);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
 

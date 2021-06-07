@@ -105,7 +105,7 @@
                                 @Html.DisplayFor(modelitem => item.Observacao)
                             </td>
                             <td>
-                                <button id="btnDetalhes" value="@item.Id" asp-route-id="@item.Id" class="btn btn-light btn-main text-white" data-toggle="modal" data-target="#exampleModal" />Detalhes
+                                <button value="@item.Id" asp-route-id="@item.Id" class="btn btn-light btn-main text-white btnDetalhes" data-toggle="modal" data-target="#myModal" />Detalhes
                             </td>
                         </tr>
                     }
@@ -116,7 +116,7 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,12 +143,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form asp-action="Edit" method="post">
-                    <div class="col-md-12">
-                        <input type="submit" value="Atualizar Extrato" class="btn btn-success" />
-                        <input type="button" class="btn btn-info" value="Fechar" data-dismiss="modal" />
-                    </div>
-                </form>
+                <div class="col-md-12">
+                    <input type="submit" value="Atualizar Extrato" class="btn btn-success btnSalvar" />
+                    <input type="button" class="btn btn-info" value="Fechar" data-dismiss="modal" />
+                </div>
             </div>
         </div>
     </div>
@@ -171,15 +169,19 @@
 
     <script>
 
-            $("#btnDetalhes").click(function () {
+            $(".btnDetalhes").click(function () {
 
-                var val = document.getElementById("btnDetalhes").value;
+                var val = document.getElementById("btnDetalhes");
 
-                alert(val)
+                $("#lblDataLancamento").empty()
+                $("#lblTipo").empty()
+                $("#lblValor").empty()
+                $("#lblDescricao").empty()
+                $("#txtObservacao").empty()
 
                 var url = '@Url.Action("DetalhesExtrato")';
 
-                $.getJSON(url, { id: $(val).val() }, function (result) {
+                $.getJSON(url, { id: $(this).val() }, function (result) {
 
                     $("#lblDataLancamento").html(result.dataLancamento)
                     $("#lblTipo").html(result.tipo)
@@ -190,6 +192,29 @@
                 });
             });
 
+
+    </script>
+
+    <script type="text/javascript">
+                    $(".btnSalvar").click(function () {
+
+                        val1 = "0d3dedce-7155-4ed1-9c6d-00afae311873";
+                val2 = $("#txtObservacao").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SalvarExtrato")",
+                    data: { id: val1, observacao: val2},
+                    dataType: "text",
+                    success: function (msg) {
+                        $('#myModal').modal('hide');
+                        alert("Atualizado com sucesso");
+                    },
+                    error: function (req, status, error) {
+                        console.log(msg);
+                    }
+                });
+            });
     </script>
 
 }
