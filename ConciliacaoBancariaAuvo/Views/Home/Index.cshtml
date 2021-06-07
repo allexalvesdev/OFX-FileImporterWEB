@@ -1,6 +1,4 @@
-﻿@model X.PagedList.PagedList<ConciliacaoBancariaAuvo.Entities.Extrato>
-@using X.PagedList.Mvc.Core
-@using ConciliacaoBancariaAuvo.Entities
+﻿@model IEnumerable<ConciliacaoBancariaAuvo.Entities.Extrato>
 
 @{
     ViewData["Title"] = "Conciliação Bancária";
@@ -40,12 +38,12 @@
     </div>
 </section>
 
-<form class="mt-1" asp-action="index" asp-controller="home" method="post" enctype="multipart/form-data">
+<form class="mt-1" asp-action="index" asp-controller="home" method="get" enctype="multipart/form-data">
     <div class="col-md-12">
         <div class="row">
 
             <div class="input-group">
-                <input type="search" multiple name="search" value="@ViewBag.Search" placeholder="Pesquise por Descrição ou Tipo..." class="form-control" required />
+                <input type="search" multiple name="search" value="@ViewBag.Search" placeholder="Pesquise por Descrição ou Observação" class="form-control" required />
                 <button type="submit" name="name" value="" class="btn btn-success">Pesquisar</button>
             </div>
             <div class="mb-3 mt-1">
@@ -55,13 +53,31 @@
     </div>
 </form>
 
+<section class="my-2">
+</section>
+
 <section class="bg-white">
     <div class="container">
         <h3 class="text-center p-4 txt-color-main">
             Listagem da Conciliação Bancária
         </h3>
         <div style="overflow-x:auto;">
-            <table class="table shadow p-3 rounded">
+
+            <div class="bg-light">
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="label label-default font-weight-bold">Data Inicio</span>
+                        <input type="date" class="form-control" id="datefilterfrom" data-date-split-input="true">
+                    </div>
+                    <div class="col-md-3">
+                        <span class="label label-default font-weight-bold">Data Fim</span>
+                        <input type="date" class="form-control" id="datefilterto" data-date-split-input="true">
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <table class="table shadow p-3 rounded" id="testTable">
                 <thead class="table-light bg-light rounded txt-color-main">
                     <tr>
                         <th>
@@ -93,7 +109,18 @@
                                 @Html.DisplayFor(modelitem => item.DataLancamento)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Tipo)
+                                @if (item.Tipo == "CREDIT\n")
+                                {
+                                    <div class="shadow-sm" style="background-color:#4f794e; text-align:center; border-radius:25px; color:aliceblue">
+                                        <small>Débito</small>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="shadow-sm" style="background-color:#b25454; text-align:center; border-radius:25px; color:aliceblue">
+                                        <small>Crédito</small>
+                                    </div>
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelitem => item.Valor)
@@ -126,6 +153,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type='hidden' id="extratoId" />
                 <div>
                     <label class="txt-color-main">Data Lançamento:</label> <span id="lblDataLancamento"></span>
                 </div>
@@ -144,7 +172,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <input type="submit" value="Atualizar Extrato" class="btn btn-success btnSalvar" />
+                    <input value="Atualizar Detalhes" type="submit" class="btn btn-success btnSalvar" />
                     <input type="button" class="btn btn-info" value="Fechar" data-dismiss="modal" />
                 </div>
             </div>
@@ -152,69 +180,90 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 text-white align-self-center">
-        Listando registros de @Model.FirstItemOnPage
-        a @Model.LastItemOnPage de um total de @Model.TotalItemCount
-    </div>
-    <div class="col-md-6 text-right">
-        @Html.PagedListPager(Model,
-          page => Url.Action("Index", new { page }))
-    </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-    <script>
+    <script type="text/javascript">
+        //Fonte: https://jsfiddle.net/oajc94hf/38/
+        function filterRows() {
 
-            $(".btnDetalhes").click(function () {
+            var from = $('#datefilterfrom').val();
+            var to = $('#datefilterto').val();
 
-                var val = document.getElementById("btnDetalhes");
+            if (!from && !to) {
+                return;
+            }
 
-                $("#lblDataLancamento").empty()
-                $("#lblTipo").empty()
-                $("#lblValor").empty()
-                $("#lblDescricao").empty()
-                $("#txtObservacao").empty()
+            from = from || '1970-01-01';
+            to = to || '2999-12-31';
 
-                var url = '@Url.Action("DetalhesExtrato")';
+            var dateFrom = moment(from);
+            var dateTo = moment(to);
 
-                $.getJSON(url, { id: $(this).val() }, function (result) {
-
-                    $("#lblDataLancamento").html(result.dataLancamento)
-                    $("#lblTipo").html(result.tipo)
-                    $("#lblValor").html(result.valor)
-                    $("#lblDescricao").html(result.descricao)
-                    $("#txtObservacao").val(result.observacao)
-
-                });
+            $('#testTable tr').each(function (i, tr) {
+                var val = $(tr).find("td:nth-child(1)").text();
+                var dateVal = moment(val, "DD/MM/YYYY");
+                var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none";
+                $(tr).css('display', visible);
             });
+        }
 
+        $(document).ready(function () {
+            $('#datefilterfrom').on("change", filterRows);
+            $('#datefilterto').on("change", filterRows);
+        });
 
     </script>
 
     <script type="text/javascript">
-                    $(".btnSalvar").click(function () {
+        $(".btnDetalhes").click(function () {
 
-                        val1 = "0d3dedce-7155-4ed1-9c6d-00afae311873";
-                val2 = $("#txtObservacao").val();
+            $("#lblDataLancamento").val(" ");
+            $("#lblTipo").val(" ");
+            $("#lblValor").val(" ");
+            $("#lblDescricao").val(" ");
+            $("#txtObservacao").val(" ");
 
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("SalvarExtrato")",
-                    data: { id: val1, observacao: val2},
-                    dataType: "text",
-                    success: function (msg) {
-                        $('#myModal').modal('hide');
-                        alert("Atualizado com sucesso");
-                    },
-                    error: function (req, status, error) {
-                        console.log(msg);
-                    }
-                });
-            });
+    var url = '@Url.Action("DetalhesExtrato")';
+
+    $.getJSON(url, { id: $(this).val() }, function (result) {
+
+            $("#lblDataLancamento").html(result.dataLancamento);
+            $("#lblTipo").html(result.tipo);
+            $("#lblValor").html(result.valor);
+            $("#lblDescricao").html(result.descricao);
+            $("#txtObservacao").val(result.observacao);
+
+            $("#extratoId").val(result.id);
+    });
+});
+
     </script>
+
+    <script type="text/javascript">
+       $(".btnSalvar").click(function () {
+
+            id = $("#extratoId").val();
+            txtObs = $("#txtObservacao").val();
+
+           $.ajax({
+               type: "POST",
+               url: "@Url.Action("SalvarExtrato")",
+               dataType: "text",
+               data: { id: id, observacao: txtObs },
+               success: function (response) {
+                   alert("Atualizado com sucesso");
+                   $("#myModal .close").click()
+               },
+               error: function (req, status, error) {
+
+                   alert("Oooops. :( Houve algum erro ao atulizar.");
+               }
+           });
+});
+    </script>
+
 
 }

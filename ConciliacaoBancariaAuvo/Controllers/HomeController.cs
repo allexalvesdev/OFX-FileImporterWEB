@@ -3,14 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 using ConciliacaoBancariaAuvo.Data;
-using X.PagedList;
 using System;
-using System.ComponentModel;
 using ConciliacaoBancariaAuvo.Services;
-using ConciliacaoBancariaAuvo.Models;
 
 namespace ConciliacaoBancariaAuvo.Controllers
 {
@@ -24,22 +20,18 @@ namespace ConciliacaoBancariaAuvo.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
-        public IActionResult Index(int page = 1, int pageSize = 10)
+        public IActionResult Index()
         {
             var search = Request.Query["Search"].ToString();
 
             var lista = _context.Extratos
                 .OrderBy(c => c.Tipo)
-                .Where(c => c.Tipo.Contains(search));
+                .Where(c => c.Descricao.Contains(search) ||
+                c.Observacao.Contains(search));
 
-            PagedList<Extrato> model = new PagedList<Extrato>(lista, page, pageSize);
-            return View("Index", model);
+
+            return View("Index", lista);
 
         }
 
@@ -85,9 +77,10 @@ namespace ConciliacaoBancariaAuvo.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SalvarExtrato(Guid id, Extrato extrato, string observacao)
+        public async Task<IActionResult> SalvarExtrato(Guid id, string observacao)
         {
-            extrato = await _context.Extratos.FindAsync(id);
+
+            var extrato = await _context.Extratos.FindAsync(id);
 
             extrato.Observacao = observacao;
 

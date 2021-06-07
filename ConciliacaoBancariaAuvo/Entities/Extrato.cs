@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConciliacaoBancariaAuvo.Entities
@@ -30,7 +31,11 @@ namespace ConciliacaoBancariaAuvo.Entities
         public Guid Id { get; set; }
 
         public string Tipo { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataLancamento { get; set; }
+
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
         public string Observacao { get; set; }
