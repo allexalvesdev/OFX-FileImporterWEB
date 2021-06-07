@@ -12,11 +12,10 @@ namespace ConciliacaoBancariaAuvo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Ofx = table.Column<string>(nullable: true),
                     Tipo = table.Column<string>(nullable: true),
-                    DataLancamento = table.Column<string>(nullable: true),
+                    DataLancamento = table.Column<DateTime>(nullable: false),
                     Descricao = table.Column<string>(nullable: true),
-                    Valor = table.Column<string>(nullable: true),
+                    Valor = table.Column<decimal>(nullable: false),
                     Observacao = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

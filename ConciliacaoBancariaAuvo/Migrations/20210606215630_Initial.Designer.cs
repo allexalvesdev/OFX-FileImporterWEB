@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConciliacaoBancariaAuvo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210603215731_Initial")]
+    [Migration("20210606215630_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,17 +26,15 @@ namespace ConciliacaoBancariaAuvo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DataLancamento");
+                    b.Property<DateTime>("DataLancamento");
 
                     b.Property<string>("Descricao");
 
                     b.Property<string>("Observacao");
 
-                    b.Property<string>("Ofx");
-
                     b.Property<string>("Tipo");
 
-                    b.Property<string>("Valor");
+                    b.Property<decimal>("Valor");
 
                     b.HasKey("Id");
 

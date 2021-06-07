@@ -1,5 +1,6 @@
 ﻿@model X.PagedList.PagedList<ConciliacaoBancariaAuvo.Entities.Extrato>
 @using X.PagedList.Mvc.Core
+@using ConciliacaoBancariaAuvo.Entities
 
 @{
     ViewData["Title"] = "Conciliação Bancária";
@@ -21,7 +22,7 @@
                                 </div>
                                 <div class="col-md-6">
 
-                                    <input type="file" id="arquivo" name="arquivo" multiple accept="application/ofx" class="btn btn-light txt-color-main form-control-file" />
+                                    <input type="file" id="arquivos" name="arquivos" multiple accept="application/ofx" class="btn btn-light txt-color-main form-control-file" />
 
                                     <label class="text-light" style="display: none" id="ofx-nome"></label>
 
@@ -39,12 +40,12 @@
     </div>
 </section>
 
-<form class="mt-1" asp-action="index" asp-controller="home" method="get">
+<form class="mt-1" asp-action="index" asp-controller="home" method="post" enctype="multipart/form-data">
     <div class="col-md-12">
         <div class="row">
 
             <div class="input-group">
-                <input type="search" name="search" value="@ViewBag.Search" placeholder="Pesquise por Descrição ou Tipo..." class="form-control" required/>
+                <input type="search" multiple name="search" value="@ViewBag.Search" placeholder="Pesquise por Descrição ou Tipo..." class="form-control" required />
                 <button type="submit" name="name" value="" class="btn btn-success">Pesquisar</button>
             </div>
             <div class="mb-3 mt-1">
@@ -84,35 +85,29 @@
                     </tr>
                 </thead>
                 <tbody class="bg-light">
-                    @if (Model == null)
+
+                    @foreach (var item in Model)
                     {
-                        <span class="alert-danger">Sem Registros</span>
-                    }
-                    else
-                    {
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelitem => item.DataLancamento)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelitem => item.Tipo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelitem => item.Valor)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelitem => item.Descricao)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelitem => item.Observacao)
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-light btn-main text-white" asp-action="details" asp-route-id="@item.Id" data-toggle="modal" data-target="#modaldetalhes">detalhes</button>
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.DataLancamento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Tipo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Valor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Descricao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Observacao)
+                            </td>
+                            <td>
+                                <button id="btnDetalhes" value="@item.Id" asp-route-id="@item.Id" class="btn btn-light btn-main text-white" data-toggle="modal" data-target="#exampleModal" />Detalhes
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -121,22 +116,39 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade" id="ModalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center txt-color-main" id="exampleModalLabel">Detalhes</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detalhes</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
-                <textarea cols="40" rows="5" class="form-control"></textarea>
+                <div>
+                    <label class="txt-color-main">Data Lançamento:</label> <span id="lblDataLancamento"></span>
+                </div>
+                <div>
+                    <label class="txt-color-main">Tipo:</label> <span id="lblTipo"></span>
+                </div>
+                <div>
+                    <label class="txt-color-main">Valor:</label> <span id="lblValor"></span>
+                </div>
+                <div>
+                    <label class="txt-color-main">Descrição:</label> <span id="lblDescricao"></span>
+                </div>
+                <div>
+                    <textarea cols="40" rows="5" id="txtObservacao"></textarea>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-light btn-main text-white">Salvar</button>
+                <form asp-action="Edit" method="post">
+                    <div class="col-md-12">
+                        <input type="submit" value="Atualizar Extrato" class="btn btn-success" />
+                        <input type="button" class="btn btn-info" value="Fechar" data-dismiss="modal" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -156,5 +168,28 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
+
+    <script>
+
+            $("#btnDetalhes").click(function () {
+
+                var val = document.getElementById("btnDetalhes").value;
+
+                alert(val)
+
+                var url = '@Url.Action("DetalhesExtrato")';
+
+                $.getJSON(url, { id: $(val).val() }, function (result) {
+
+                    $("#lblDataLancamento").html(result.dataLancamento)
+                    $("#lblTipo").html(result.tipo)
+                    $("#lblValor").html(result.valor)
+                    $("#lblDescricao").html(result.descricao)
+                    $("#txtObservacao").val(result.observacao)
+
+                });
+            });
+
+    </script>
 
 }

@@ -24,17 +24,15 @@ namespace ConciliacaoBancariaAuvo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DataLancamento");
+                    b.Property<DateTime>("DataLancamento");
 
                     b.Property<string>("Descricao");
 
                     b.Property<string>("Observacao");
 
-                    b.Property<string>("Ofx");
-
                     b.Property<string>("Tipo");
 
-                    b.Property<string>("Valor");
+                    b.Property<decimal>("Valor");
 
                     b.HasKey("Id");
 

@@ -65,4 +65,4 @@ C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Concil
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.pdb
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.genruntimeconfig.cache
 C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\ConciliacaoBancariaAuvo.csproj.CopyComplete
-C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\_Details.cshtml.g.cs
+C:\Dev\github\ProjetoAuvo\ConciliacaoBancariaAuvo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Edit.cshtml.g.cs

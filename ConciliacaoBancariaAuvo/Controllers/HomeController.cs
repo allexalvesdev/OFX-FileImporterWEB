@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ConciliacaoBancariaAuvo.Data;
 using X.PagedList;
-
+using System;
+using System.ComponentModel;
+using ConciliacaoBancariaAuvo.Services;
 
 namespace ConciliacaoBancariaAuvo.Controllers
 {
@@ -47,85 +49,39 @@ namespace ConciliacaoBancariaAuvo.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> UploadArquivo(IFormFile arquivo, string ofxPrefixo)
+        public async Task<IActionResult> UploadArquivo(IFormFile[] arquivos)
         {
 
-            string fileContents;
-            using (var stream = arquivo.OpenReadStream())
+            var extratoService = new ExtratoService(_context);
+
+            foreach (var arquivo in arquivos)
             {
-                using (var reader = new StreamReader(stream))
+                string fileContents;
+
+                using (var stream = arquivo.OpenReadStream())
                 {
-                    fileContents = await reader.ReadToEndAsync();
+                    using (var reader = new StreamReader(stream))
+                    {
+                        fileContents = await reader.ReadToEndAsync();
+                    }
                 }
-            }
 
-            List<string> listaTags = new List<string>();
-            var extrato = new Extrato();
-            List<Extrato> extratos = new List<Extrato>();
+                var lancamentosOfx = extratoService.ExtrairLancamentosOfx(fileContents);
 
-            while (fileContents.IndexOf("<STMTTRN>") > -1)
-            {
-                var indexInicial = fileContents.IndexOf("<STMTTRN>");
-                var indexFinal = fileContents.IndexOf("</STMTTRN>") + 10;
-
-                var intervaloIndex = fileContents.Substring(indexInicial, (indexFinal - indexInicial));
-
-                listaTags.Add(intervaloIndex);
-
-                fileContents = fileContents.Substring(indexFinal);
+                extratoService.MapearSalvarExtratos(lancamentosOfx);
 
             }
-
-            foreach (var list in listaTags)
-            {
-                #region teste
-                //var posTipo = fileContents.IndexOf("<TRNTYPE>");
-                //listaTags[0] = intervaloIndex.Substring(19, 5);
-                //extrato.Tipo = listaTags[0];
-                //listaTags[0] = intervaloIndex.Substring(35, 8);
-                ////extrato.DataLancamento = Convert.ToDateTime(listaTags[0]);
-                //extrato.DataLancamento = listaTags[0];
-                //listaTags[0] = intervaloIndex.Substring(67, 6);
-                //extrato.Valor = Convert.ToDecimal(listaTags[0]);
-                //listaTags[0] = intervaloIndex.Substring(81, 25);
-                //extrato.Descricao = listaTags[0];
-
-                //<STMTTRN>
-                //<TRNTYPE> DEBIT
-                //<DTPOSTED> 20140203100000[-03:EST]
-                //<TRNAMT> -140.00
-                //<MEMO> CXE     001958 SAQUE
-                //</STMTTRN >
-                #endregion
-
-                extrato.Id = extrato.Id;
-
-                var descricaoInicial = list.IndexOf("<MEMO>");
-
-                //var indexfinal = listaTags[i].IndexOf("</STMTTRN>") - 82;
-                var valorFinal = list.IndexOf("<MEMO>") - 68;
-
-                extrato.Tipo = list.ToString().Substring(19, 5);
-                extrato.DataLancamento = list.ToString().Substring(35, 8);
-                extrato.Valor = list.ToString().Substring(67, valorFinal);
-                extrato.Descricao = list.ToString().Substring(descricaoInicial, 25).Replace("<MEMO>", "");
-
-                extratos.Add(new Extrato(extrato.Tipo, extrato.DataLancamento, extrato.Valor, extrato.Descricao));
-
-            }
-
-            _context.Extratos.AddRange(extratos);
-            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public JsonResult DetalhesExtrato(Guid id)
         {
             var extrato = _context.Extratos.Find(id);
 
-            return View(extrato);
+            return Json(extrato);
         }
+
 
     }
 }

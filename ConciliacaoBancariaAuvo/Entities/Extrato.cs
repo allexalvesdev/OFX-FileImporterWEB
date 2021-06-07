@@ -13,7 +13,7 @@ namespace ConciliacaoBancariaAuvo.Entities
            
         }
 
-        public Extrato(string tipo, string dataLancamento, string valor, string descricao)
+        public Extrato(string tipo, DateTime dataLancamento, decimal valor, string descricao)
         {
             Id = Guid.NewGuid();
             Tipo = tipo;
@@ -24,14 +24,10 @@ namespace ConciliacaoBancariaAuvo.Entities
 
         public Guid Id { get; set; }
 
-        [NotMapped]
-        public IFormFile OfxUpload { get; set; }
-        public string Ofx { get; set; }
-
         public string Tipo { get; set; }
-        public string DataLancamento { get; set; }
+        public DateTime DataLancamento { get; set; }
         public string Descricao { get; set; }
-        public string Valor { get; set; }
+        public decimal Valor { get; set; }
         public string Observacao { get; set; }
 
     }
