@@ -5,35 +5,29 @@
 }
 
 <section class="my-2">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-12 ">
-            <div class="">
+            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="UploadArquivo">
 
-                <form class="col-xs-12" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="UploadArquivo">
+                <div class="card bg-transparent border-white">
+                    <div class="card-body">
+                        <div class="card-text text-center mb-2"><img src="~/images/cloud.svg" alt="Upload" style="width:10%;" /></div>
 
-                    <div class="card bg-transparent border-white" style="width:100%;">
-                        <div class="card-body">
-                            <div class="card-text text-center mb-2"><img src="~/images/cloud.svg" alt="Upload" style="width:10%;" /></div>
-                            <div class="row justify-content-center">
-                                <div class="col-md-12">
-                                    <h5 class="text-white text-center">Escolha o arquivo OFX</h5>
-                                </div>
-                                <div class="col-md-6">
+                        <div class="col-md-12">
+                            <h5 class="text-white text-center">Você pode selecionar um ou vários arquivos OFX</h5>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-md-5">
+                                <input type="file" id="arquivos" name="arquivos" multiple class="btn btn-light txt-color-main form-control-file" required />
+                            </div>
 
-                                    <input type="file" id="arquivos" name="arquivos" multiple accept="application/ofx" class="btn btn-light txt-color-main form-control-file" />
-
-                                    <label class="text-light" style="display: none" id="ofx-nome"></label>
-
-                                </div>
-                                <div class="form-group ">
-                                    <button type="submit" class="btn btn-light">Importar</button>
-                                </div>
+                            <div class="col-md-4 align-self-center pl-md-0">
+                                <button type="submit" class="btn btn-light">Importar</button>
                             </div>
                         </div>
                     </div>
-                </form>
-
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </section>
@@ -53,9 +47,6 @@
     </div>
 </form>
 
-<section class="my-2">
-</section>
-
 <section class="bg-white">
     <div class="container">
         <h3 class="text-center p-4 txt-color-main">
@@ -67,17 +58,17 @@
                 <div class="row">
                     <div class="col-md-3">
                         <span class="label label-default font-weight-bold">Data Inicio</span>
-                        <input type="date" class="form-control" id="datefilterfrom" data-date-split-input="true">
+                        <input type="date" class="form-control" id="dataInicio" data-date-split-input="true">
                     </div>
                     <div class="col-md-3">
                         <span class="label label-default font-weight-bold">Data Fim</span>
-                        <input type="date" class="form-control" id="datefilterto" data-date-split-input="true">
+                        <input type="date" class="form-control" id="dataFim" data-date-split-input="true">
                     </div>
                 </div>
             </div>
 
             <hr />
-            <table class="table shadow p-3 rounded" id="testTable">
+            <table class="table shadow p-3 rounded" id="filtroDados">
                 <thead class="table-light bg-light rounded txt-color-main">
                     <tr>
                         <th>
@@ -167,7 +158,8 @@
                     <label class="txt-color-main">Descrição:</label> <span id="lblDescricao"></span>
                 </div>
                 <div>
-                    <textarea cols="40" rows="5" id="txtObservacao"></textarea>
+                    <label class="txt-color-main">Observação:</label>
+                    <textarea class="form-control-range" cols="40" rows="5" id="txtObservacao"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -187,63 +179,58 @@
 
     <script type="text/javascript">
         //Fonte: https://jsfiddle.net/oajc94hf/38/
-        function filterRows() {
+        function filtrarDatas() {
 
-            var from = $('#datefilterfrom').val();
-            var to = $('#datefilterto').val();
+            var inicio = $('#dataInicio').val();
+            var fim = $('#dataFim').val();
 
-            if (!from && !to) {
+            if (!inicio && !fim) {
                 return;
             }
 
-            from = from || '1970-01-01';
-            to = to || '2999-12-31';
+            inicio = inicio || '1970-01-01';
+            fim = fim || '2999-12-31';
 
-            var dateFrom = moment(from);
-            var dateTo = moment(to);
+            var dataDe = moment(inicio);
+            var dataPara = moment(fim);
 
-            $('#testTable tr').each(function (i, tr) {
+            $('#filtroDados tr').each(function (i, tr) {
                 var val = $(tr).find("td:nth-child(1)").text();
-                var dateVal = moment(val, "DD/MM/YYYY");
-                var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none";
-                $(tr).css('display', visible);
+                var dataValor = moment(val, "DD/MM/YYYY");
+                var mostrar = (dataValor.isBetween(dataDe, dataPara, null, [])) ? "" : "none";
+                $(tr).css('display', mostrar);
             });
         }
 
         $(document).ready(function () {
-            $('#datefilterfrom').on("change", filterRows);
-            $('#datefilterto').on("change", filterRows);
-        });
+            $('#dataInicio').on("change", filtrarDatas);
+            $('#dataFim').on("change", filtrarDatas);
 
-    </script>
+            //BuscarDetalhesAjax
+            $(".btnDetalhes").click(function () {
 
-    <script type="text/javascript">
-        $(".btnDetalhes").click(function () {
+                $("#lblDataLancamento").val(" ");
+                $("#lblTipo").val(" ");
+                $("#lblValor").val(" ");
+                $("#lblDescricao").val(" ");
+                $("#txtObservacao").val(" ");
 
-            $("#lblDataLancamento").val(" ");
-            $("#lblTipo").val(" ");
-            $("#lblValor").val(" ");
-            $("#lblDescricao").val(" ");
-            $("#txtObservacao").val(" ");
+                var url = '@Url.Action("DetalhesExtrato")';
 
-    var url = '@Url.Action("DetalhesExtrato")';
+                $.getJSON(url, { id: $(this).val() }, function (result) {
 
-    $.getJSON(url, { id: $(this).val() }, function (result) {
+                        $("#lblDataLancamento").html(result.dataLancamento);
+                        $("#lblTipo").html(result.tipo);
+                        $("#lblValor").html(result.valor);
+                        $("#lblDescricao").html(result.descricao);
+                        $("#txtObservacao").val(result.observacao);
 
-            $("#lblDataLancamento").html(result.dataLancamento);
-            $("#lblTipo").html(result.tipo);
-            $("#lblValor").html(result.valor);
-            $("#lblDescricao").html(result.descricao);
-            $("#txtObservacao").val(result.observacao);
+                        $("#extratoId").val(result.id);
+                });
+            });
 
-            $("#extratoId").val(result.id);
-    });
-});
-
-    </script>
-
-    <script type="text/javascript">
-       $(".btnSalvar").click(function () {
+            //SalvarDetalhesAjax
+            $(".btnSalvar").click(function () {
 
             id = $("#extratoId").val();
             txtObs = $("#txtObservacao").val();
@@ -262,7 +249,29 @@
                    alert("Oooops. :( Houve algum erro ao atulizar.");
                }
            });
-});
+         });
+
+            //ValidarArquivoOFX
+            $("#arquivos").change(function () {
+
+                var arquivos = document.getElementById('arquivos');
+                var erro = false;
+
+                for (var i = 0; i < arquivos.files.length; i++) {
+                    var ext = arquivos.files[i].name.substr(-4);
+                    if (ext.toLowerCase() !== ".ofx") {
+                        erro = true;
+                    }
+                }
+
+                if (erro) {
+                    alert("Arquivos inválidos");
+                    $("#arquivos").val("");
+                }
+
+            });
+        });
+
     </script>
 
 
