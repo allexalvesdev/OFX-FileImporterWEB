@@ -2,9 +2,7 @@
 using ConciliacaoBancariaAuvo.Entities;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ConciliacaoBancariaAuvo.Services
 {
@@ -80,7 +78,6 @@ namespace ConciliacaoBancariaAuvo.Services
                     extratos.Add(new Extrato(extrato.Tipo, extrato.DataLancamento, extrato.Valor, extrato.Descricao));
                 }
             }
-
             _context.Extratos.AddRange(extratos);
             _context.SaveChanges();
         }

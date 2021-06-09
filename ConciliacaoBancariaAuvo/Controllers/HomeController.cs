@@ -63,7 +63,10 @@ namespace ConciliacaoBancariaAuvo.Controllers
 
                 extratoService.MapearSalvarExtratos(lancamentosOfx);
 
+                TempData["Cont"] = _context.Extratos.Count();
+                TempData["Success"] = "Arquivo(s) importado com Sucesso!";
             }
+       
             return RedirectToAction("Index");
         }
 

@@ -52,6 +52,12 @@
         <h3 class="text-center p-4 txt-color-main">
             Listagem da Conciliação Bancária
         </h3>
+
+        @if (TempData["Success"] != null)
+        {
+            <div id="msg_box" class="alert alert-success">@TempData["Success"]</div>
+        }
+
         <div style="overflow-x:auto;">
 
             <div class="bg-light">
@@ -130,6 +136,12 @@
                 </tbody>
             </table>
         </div>
+    </div>
+</section>
+
+<section>
+    <div>
+        <p class="text-white">@TempData["Cont"] Registro(s)</p>
     </div>
 </section>
 
