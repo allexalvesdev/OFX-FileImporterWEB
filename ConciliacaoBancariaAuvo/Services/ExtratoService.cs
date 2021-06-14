@@ -78,6 +78,7 @@ namespace ConciliacaoBancariaAuvo.Services
                     extratos.Add(new Extrato(extrato.Tipo, extrato.DataLancamento, extrato.Valor, extrato.Descricao));
                 }
             }
+            
             _context.Extratos.AddRange(extratos);
             _context.SaveChanges();
         }

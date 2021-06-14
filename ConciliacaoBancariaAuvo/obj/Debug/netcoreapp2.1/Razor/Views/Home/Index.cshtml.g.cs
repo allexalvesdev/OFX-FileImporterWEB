@@ -82,12 +82,12 @@ using ConciliacaoBancariaAuvo.Models;
             WriteLiteral("\r\n<section class=\"my-2\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-12 \">\r\n            ");
             EndContext();
             BeginContext(215, 1170, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "609b843b1b44432a807fa2220916a4f5", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6cc6bd91ff024ff9804245cc87e4bba7", async() => {
                 BeginContext(314, 177, true);
                 WriteLiteral("\r\n\r\n                <div class=\"card bg-transparent border-white\">\r\n                    <div class=\"card-body\">\r\n                        <div class=\"card-text text-center mb-2\">");
                 EndContext();
                 BeginContext(491, 64, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "f967e5549a7c46438eb13098e2be8317", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "23011bda4493456d9880125b292d513f", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -147,7 +147,7 @@ using ConciliacaoBancariaAuvo.Models;
             WriteLiteral("\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n");
             EndContext();
             BeginContext(1429, 687, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "70c624b408804179ac0ee2fb669a20d1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c7c13af6bfd8496483f6405aca512ed5", async() => {
                 BeginContext(1532, 158, true);
                 WriteLiteral("\r\n    <div class=\"col-md-12\">\r\n        <div class=\"row\">\r\n\r\n            <div class=\"input-group\">\r\n                <input type=\"search\" multiple name=\"search\"");
                 EndContext();
@@ -166,7 +166,7 @@ WriteAttributeValue("", 1698, ViewBag.Search, 1698, 15, false);
                 ");
                 EndContext();
                 BeginContext(1976, 83, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "49590d9e37c14bd2a45ca472ea45c042", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5a178157049d4bdd8979df15121a112d", async() => {
                     BeginContext(2040, 15, true);
                     WriteLiteral("Limpar pesquisa");
                     EndContext();
@@ -404,7 +404,7 @@ WriteAttributeValue("", 1698, ViewBag.Search, 1698, 15, false);
             WriteLiteral("\r\n                            </td>\r\n                            <td>\r\n                                ");
             EndContext();
             BeginContext(5738, 148, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "fb62660a7fd1408faaca64f65ac14205", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "6b7dff794da248e7a20909416fefaad7", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_FormActionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.FormActionTagHelper>();
